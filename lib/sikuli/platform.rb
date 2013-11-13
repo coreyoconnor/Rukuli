@@ -10,7 +10,7 @@ module Sikuli
     OS_X = RbConfig::CONFIG['host_os'] =~ /darwin/
 
     def self.sikuli_script_path
-      if OS_X
+      if OS_X && ENV['SIKULI_HOME'].nil?
         path = "/Applications/Sikuli-IDE.app/Contents/Resources/Java/sikuli-script.jar"
       else
         raise LoadError, no_sikuli_home_err_msg if ENV['SIKULI_HOME'].nil?
