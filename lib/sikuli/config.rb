@@ -39,9 +39,18 @@ module Sikuli
       # Returns nothing
       def logging=(boolean)
         return unless [TrueClass, FalseClass].include? boolean.class
-        org.sikuli.script::Settings.InfoLogs = boolean
-        org.sikuli.script::Settings.ActionLogs = boolean
-        org.sikuli.script::Settings.DebugLogs = boolean
+        # newer versions of sikuli place the Settings class in org.sikuli.basics.
+        # This should be predicated on version, but sikuli also moved the version query to
+        # org.sikuli.basics. Which means querying for version is version dependent.
+        begin
+          org.sikuli.script::Settings.InfoLogs = boolean
+          org.sikuli.script::Settings.ActionLogs = boolean
+          org.sikuli.script::Settings.DebugLogs = boolean
+        rescue NameError
+          org.sikuli.basics::Settings.InfoLogs = boolean
+          org.sikuli.basics::Settings.ActionLogs = boolean
+          org.sikuli.basics::Settings.DebugLogs = boolean
+        end
       end
 
       # Public: convienence method for grouping the setting of config
